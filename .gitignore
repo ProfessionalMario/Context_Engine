@@ -16,5 +16,6 @@ build/
 
 # Local cache
 .context_cache/
+.context_log_state
 project_summary.json
 docstrings.txt
