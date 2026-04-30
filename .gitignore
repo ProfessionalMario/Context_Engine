@@ -1,0 +1,20 @@
+# Models
+models/
+*.gguf
+
+# Logs
+logs/
+*.log
+
+# Python junk
+__pycache__/
+*.pyc
+.vscode/
+dist/
+build/
+*.egg-info/
+
+# Local cache
+.context_cache/
+project_summary.json
+docstrings.txt
