@@ -3,7 +3,8 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "context_engine"
+name = "[project]
+name = "context-stream""
 version = "1.0.1"
 description = "AI-powered project mapping for the DebugFlow ecosystem"
 readme = "README.md"
@@ -15,11 +16,11 @@ dependencies = [
 ]
 
 [project.scripts]
-context-engine  = "context_engine.cli:main"
-context-logs    = "context_engine.cli:toggle_logs"
-context-logs-on = "context_engine.cli:logs_on"
-context-logs-off = "context_engine.cli:logs_off"
+context-stream  = "context_stream.cli:main"
+context-logs    = "context_stream.cli:toggle_logs"
+context-logs-on = "context_stream.cli:logs_on"
+context-logs-off = "context_stream.cli:logs_off"
 
 [tool.setuptools.packages.find]
 package-dir = {"" = "src"}
-include = ["context_engine*"]
+include = ["context_stream*"]

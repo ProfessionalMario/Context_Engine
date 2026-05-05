@@ -8,7 +8,7 @@ from pathlib import Path
 from debugflow.logger_system import log
 
 # Define the global config directory in the user's home folder
-CONFIG_DIR = Path.home() / ".context_engine"
+CONFIG_DIR = Path.home() / ".context_stream"
 CONFIG_FILE = CONFIG_DIR / "config.json"
 
 def ensure_config_dir():

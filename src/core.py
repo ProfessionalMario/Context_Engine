@@ -1,5 +1,5 @@
 """
-File summary: This code implements a context engine for analyzing and summarizing source code projects, 
+File summary: This code implements a context stream for analyzing and summarizing source code projects, 
 injecting AI intent where applicable, and generating a project map for a debugging tool.
 """
 
@@ -17,7 +17,7 @@ from .exporter import export_json, export_text
 from .config import get_model_path
 
 
-class ContextEngine:
+class ContextStream:
     def __init__(self, project_path: str, logs_on: bool = True, context_logs_on: bool = True, ignore_list: list = None):
         self.project_path = Path(project_path).resolve()
         self.model_path = get_model_path()
@@ -26,12 +26,12 @@ class ContextEngine:
         self.ignore_list = ignore_list or []
 
         from debugflow.logger_system import log as base_log
-        self.logger = base_log.getChild("context_engine")
-        self.logger.name = "context_engine"
+        self.logger = base_log.getChild("context_stream")
+        self.logger.name = "context_stream"
         self.silent = not logs_on or not context_logs_on
 
     def _log(self, message: str, level: str = "info"):
-        """Internal logger using the context_engine identity."""
+        """Internal logger using the context_stream identity."""
         if not self.silent:
             if level == "info":
                 self.logger.info(message)
@@ -44,7 +44,7 @@ class ContextEngine:
             self._log("❌ Model path not set. Use 'model-path' command first.", "error")
             return None, None
 
-        self._log(f"🚀 Context Engine Active: {self.project_path.name}")
+        self._log(f"🚀 Context Stream Active: {self.project_path.name}")
 
         stats = {"total_files": 0, "cache_hits": 0, "new_analyses": 0, "time_taken": 0.0}
         project_graph = {}

@@ -6,12 +6,12 @@ It manages its own AI-specific log persistence and handles model path configurat
 import sys
 import os
 from pathlib import Path
-from .core import ContextEngine
+from .core import ContextStream
 from .config import set_model_path, get_model_path
 
 STATE_FILE = Path(__file__).parent / ".context_log_state"
 
-BARE_COMMANDS = {"context-engine"}
+BARE_COMMANDS = {"context-stream"}
 
 
 def get_log_state():
@@ -47,10 +47,10 @@ def toggle_logs():
 
 def show_help():
     print("\n" + "═" * 55)
-    print("  💡 CONTEXT ENGINE — COMMAND CENTER")
+    print("  💡 CONTEXT STREAM — COMMAND CENTER")
     print("═" * 55)
-    print("  context-engine <path>      # Scan project (e.g., context-engine .)")
-    print("  context-engine model-path  # Link your GGUF model")
+    print("  context-stream <path>      # Scan project (e.g., context-stream .)")
+    print("  context-stream model-path  # Link your GGUF model")
     print("\n  🛠️  AI LOG CONTROL (persists between runs):")
     print("  context-logs               # Toggle AI logs ON/OFF")
     print("  context-logs-on            # Force AI logs ON")
@@ -96,7 +96,7 @@ def main():
     # 5. Model Guard
     if not get_model_path():
         print("\n⚠️  ERROR: No model linked!")
-        print("  Run:  context-engine model-path\n")
+        print("  Run:  context-stream model-path\n")
         return
 
     # --- STATUS HEADER ---
@@ -106,13 +106,13 @@ def main():
     print("═" * 55 + "\n")
 
     try:
-        engine = ContextEngine(
+        stream = ContextStream(
             project_path=target_path,
             logs_on=True,
             context_logs_on=context_logs_enabled
         )
 
-        project_map, stats = engine.run()
+        project_map, stats = stream.run()
 
         if stats:
             print("\n" + "─" * 55)
