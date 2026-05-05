@@ -39,7 +39,7 @@ class ContextStream:
                 self.logger.error(message)
 
     def run(self, auto_inject: bool = True):
-        """The actual engine logic. Now filters framework noise."""
+        """The actual stream logic. Now filters framework noise."""
         if not self.model_path:
             self._log("❌ Model path not set. Use 'model-path' command first.", "error")
             return None, None

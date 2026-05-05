@@ -1,26 +1,71 @@
 [build-system]
-requires = ["setuptools>=61.0"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "[project]
-name = "context-stream""
-version = "1.0.1"
-description = "AI-powered project mapping for the DebugFlow ecosystem"
+name = "context-stream"
+version = "1.0.0"
+description = "AI-powered project mapping for debugging, tracing, and execution analysis"
 readme = "README.md"
 requires-python = ">=3.10"
+
+authors = [
+    { name = "Manikandan", email = "mani1756067@gmail.com" }
+]
+
+keywords = [
+    "debugger",
+    "tracer",
+    "context",
+    "execution",
+    "visualization",
+    "profiling",
+    "ai",
+    "python"
+]
+
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: Microsoft :: Windows",
+    "Operating System :: MacOS",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Debuggers",
+]
+
 dependencies = [
     "tqdm",
     "llama-cpp-python",
-    "debugflow",
+    "dearpygui>=2.0,<3",
+    "pynput>=1.7.6",
+    "psutil>=5.9"
 ]
 
+[project.optional-dependencies]
+ml = ["torch", "numpy", "pandas"]
+
+[project.urls]
+Homepage = "https://github.com/ProfessionalMario/Context_Engine"
+Repository = "https://github.com/ProfessionalMario/Context_Engine"
+Issues = "https://github.com/ProfessionalMario/Context_Engine/issues"
+
 [project.scripts]
-context-stream  = "context_stream.cli:main"
-context-logs    = "context_stream.cli:toggle_logs"
+context-stream = "context_stream.cli:main"
+context-logs = "context_stream.cli:toggle_logs"
 context-logs-on = "context_stream.cli:logs_on"
 context-logs-off = "context_stream.cli:logs_off"
 
-[tool.setuptools.packages.find]
+[tool.setuptools]
 package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
 include = ["context_stream*"]
+
+[tool.setuptools.exclude-package-data]
+"*" = ["*.pyc", "__pycache__/*"]

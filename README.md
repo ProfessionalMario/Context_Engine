@@ -70,7 +70,7 @@ After the run, you get a `context/project_summary.json` at the project root with
 ## Installation
 
 ```bash
-pip install context_engine
+pip install context_stream
 ```
 
 **Dependencies (auto-installed):**
@@ -81,17 +81,17 @@ pip install context_engine
 
 **Requires Python 3.10+.**
 
-You also need a **GGUF model** on disk. The engine is tuned around `google_gemma-3-4b-it-Q5_K_M.gguf`, but any chat-tuned GGUF that `llama-cpp-python` can load will work.
+You also need a **GGUF model** on disk. The stream is tuned around `google_gemma-3-4b-it-Q5_K_M.gguf`, but any chat-tuned GGUF that `llama-cpp-python` can load will work.
 
 After install, link your model **once**:
 
 ```bash
-context-engine model-path
+context-stream model-path
 # 🎯 Enter absolute path to your GGUF model: /home/you/models/gemma-3-4b-it-Q5_K_M.gguf
 # ✨ Configuration saved successfully.
 ```
 
-The path is persisted to `~/.context_engine/config.json` and reused across every project.
+The path is persisted to `~/.context_stream/config.json` and reused across every project.
 
 ---
 
@@ -102,10 +102,10 @@ The path is persisted to `~/.context_engine/config.json` and reused across every
 From the root of any Python project:
 
 ```bash
-context-engine .
+context-stream .
 ```
 
-The engine will:
+The stream will:
 
 1. Walk every `.py` file (skipping `__pycache__`, `.git`, `venv`, `models`, `context`).
 2. Hash each file and skip anything already cached.
@@ -116,10 +116,10 @@ The engine will:
 ### Option 2 — Python module (embed in your own tooling)
 
 ```python
-from context_engine import ContextEngine
+from context_stream import ContextStream
 
-engine = ContextEngine(project_path=".", logs_on=True, context_logs_on=True)
-project_map, stats = engine.run(auto_inject=True)
+stream = ContextStream(project_path=".", logs_on=True, context_logs_on=True)
+project_map, stats = stream.run(auto_inject=True)
 
 print(f"Mapped {stats['total_files']} files in {stats['time_taken']:.2f}s")
 print(f"Cache hits: {stats['cache_hits']}, AI analyses: {stats['new_analyses']}")
@@ -127,7 +127,7 @@ print(f"Cache hits: {stats['cache_hits']}, AI analyses: {stats['new_analyses']}"
 
 `project_map` is the same dict written to disk — use it directly without round-tripping through JSON.
 
-The engine instance is just a regular Python object. Creating it inside your own script does **not** affect your process's imports or environment in any way — it only touches the filesystem paths you give it.
+The stream instance is just a regular Python object. Creating it inside your own script does **not** affect your process's imports or environment in any way — it only touches the filesystem paths you give it.
 
 ### Stopping it
 
@@ -143,7 +143,7 @@ Every non-trivial codebase suffers from the same rot:
 - File names imply one thing while the code does another.
 - When something crashes deep inside an ML pipeline, the only "context" your debugger has is the traceback — no idea what the surrounding files were *supposed* to do.
 
-Context Engine fixes this at the root by treating the project itself as the source of truth. Instead of trusting names or stale docstrings, it reads the **actual logic** of every function and asks a local LLM to summarize what it *executes*, not what it claims to do. That summary then becomes:
+Context Stream fixes this at the root by treating the project itself as the source of truth. Instead of trusting names or stale docstrings, it reads the **actual logic** of every function and asks a local LLM to summarize what it *executes*, not what it claims to do. That summary then becomes:
 
 1. A real, injected docstring at the top of the file.
 2. A node in the global `project_summary.json` map.
@@ -173,20 +173,20 @@ The whole pipeline is local, cached, and incremental — so re-running it across
 ### Mapping a single project
 
 ```python
-from context_engine import ContextEngine
+from context_stream import ContextStream
 
-engine = ContextEngine("/path/to/project")
-project_map, stats = engine.run()
+stream = ContextStream("/path/to/project")
+project_map, stats = stream.run()
 ```
 
 ### Ignoring framework / boilerplate directories
 
 ```python
-engine = ContextEngine(
+stream = Contextstream(
     project_path=".",
     ignore_list=["migrations", "tests", "conftest.py"]
 )
-project_map, stats = engine.run()
+project_map, stats = stream.run()
 ```
 
 Entries in `ignore_list` are matched against both directory names and file names.
@@ -221,12 +221,12 @@ for file, deps in summary["dependencies"].items():
 ### Running silently (no AI logs)
 
 ```python
-engine = ContextEngine(
+stream = ContextStream(
     project_path=".",
     logs_on=True,           # keep DebugFlow's master pipe alive
-    context_logs_on=False,  # silence the engine's own chatter
+    context_logs_on=False,  # silence the stream's own chatter
 )
-engine.run()
+stream.run()
 ```
 
 ### Mapping without auto-injecting docstrings
@@ -234,14 +234,14 @@ engine.run()
 If you want a read-only pass (no file mutations), disable injection:
 
 ```python
-engine = ContextEngine(".")
-project_map, stats = engine.run(auto_inject=False)
+stream = ContextStream(".")
+project_map, stats = stream.run(auto_inject=False)
 ```
 
 ### Switching the model at runtime
 
 ```python
-from context_engine import set_model_path, get_model_path
+from context_stream import set_model_path, get_model_path
 
 set_model_path("/new/path/to/another-model.gguf")
 print("Active model:", get_model_path())
@@ -253,18 +253,18 @@ print("Active model:", get_model_path())
 
 | Variable     | Purpose                                                                 | Default                                                |
 |--------------|-------------------------------------------------------------------------|--------------------------------------------------------|
-| `MODEL_PATH` | Override the GGUF model path (takes precedence over the saved config).  | Falls back to `~/.context_engine/config.json`, then to `./models/google_gemma-3-4b-it-Q5_K_M.gguf` |
+| `MODEL_PATH` | Override the GGUF model path (takes precedence over the saved config).  | Falls back to `~/.context_stream/config.json`, then to `./models/google_gemma-3-4b-it-Q5_K_M.gguf` |
 
 Persistent config is stored in:
 
-- `~/.context_engine/config.json` — global model path.
+- `~/.context_stream/config.json` — global model path.
 - `<project>/context/cache.json` — per-project hash cache.
 - `<project>/context/project_summary.json` — per-project neural map.
-- `<project>/.context/engine_flow.log` — runtime log piped through DebugFlow.
+- `<project>/.context/stream_flow.log` — runtime log piped through DebugFlow.
 
-The engine's chatter toggle is persisted at:
+The stream's chatter toggle is persisted at:
 
-- `<install>/context_engine/.context_log_state` — `ON` / `OFF`.
+- `<install>/context_stream/.context_log_state` — `ON` / `OFF`.
 
 ---
 
@@ -272,16 +272,16 @@ The engine's chatter toggle is persisted at:
 
 | Command                         | What it does                                                        |
 |---------------------------------|---------------------------------------------------------------------|
-| `context-engine <path>`         | Run a full scan over the given project path (use `.` for cwd).      |
-| `context-engine model-path`     | Interactive prompt to link / re-link your GGUF model.               |
-| `context-logs`                  | Toggle the engine's AI chatter ON ↔ OFF (state persists).           |
+| `context-stream <path>`         | Run a full scan over the given project path (use `.` for cwd).      |
+| `context-stream model-path`     | Interactive prompt to link / re-link your GGUF model.               |
+| `context-logs`                  | Toggle the stream's AI chatter ON ↔ OFF (state persists).           |
 | `context-logs-on`               | Force AI chatter ON.                                                |
 | `context-logs-off`              | Force AI chatter OFF (silenced).                                    |
 
 You can also override the chatter state inline for a single run:
 
 ```bash
-context-engine . context-logs off
+context-stream . context-logs off
 ```
 
 ---
@@ -337,7 +337,7 @@ The `context/project_summary.json` written after each scan has this shape:
 - Hash-based incremental cache and crash-safe `fsync` persistence.
 - Auto-injection of file-level docstrings.
 - Dependency graph extraction.
-- CLI (`context-engine`, `model-path`) and persistent log-state toggles.
+- CLI (`context-stream`, `model-path`) and persistent log-state toggles.
 - DebugFlow logger integration (`debugflow.logger_system`, child-logger naming).
 - `ignore_list` support for filtering framework noise.
 
