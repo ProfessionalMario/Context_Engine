@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "context-stream"
-version = "1.0.0"
+version = "1.0.1"
 description = "AI-powered project mapping for debugging, tracing, and execution analysis"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -50,9 +50,9 @@ dependencies = [
 ml = ["torch", "numpy", "pandas"]
 
 [project.urls]
-Homepage = "https://github.com/ProfessionalMario/Context_Engine"
-Repository = "https://github.com/ProfessionalMario/Context_Engine"
-Issues = "https://github.com/ProfessionalMario/Context_Engine/issues"
+Homepage = "https://github.com/ProfessionalMario/Context_Stream"
+Repository = "https://github.com/ProfessionalMario/Context_Stream"
+Issues = "https://github.com/ProfessionalMario/Context_Stream/issues"
 
 [project.scripts]
 context-stream = "context_stream.cli:main"
