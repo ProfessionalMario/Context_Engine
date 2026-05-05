@@ -1,3 +1,7 @@
+"""
+File summary: Executes logic for file.
+"""
+
 import ast
 
 def extract_dependencies(file_path):

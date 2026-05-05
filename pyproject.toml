@@ -4,23 +4,22 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "context_engine"
-version = "1.0.0"
+version = "1.0.1"
 description = "AI-powered project mapping for the DebugFlow ecosystem"
 readme = "README.md"
-requires-python = ">=3.8"
+requires-python = ">=3.10"
 dependencies = [
     "tqdm",
     "llama-cpp-python",
-     "debugflow", 
+    "debugflow",
 ]
 
 [project.scripts]
-context-engine = "context_engine.cli:main"
-context-logs = "context_engine.cli:toggle_logs"
+context-engine  = "context_engine.cli:main"
+context-logs    = "context_engine.cli:toggle_logs"
 context-logs-on = "context_engine.cli:logs_on"
 context-logs-off = "context_engine.cli:logs_off"
 
-
 [tool.setuptools.packages.find]
-where = ["."]
+package-dir = {"" = "src"}
 include = ["context_engine*"]
