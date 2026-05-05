@@ -1,4 +1,4 @@
-# Context Engine
+# Context Stream
 
 > AI-powered project mapping that provides full details and intents for your local llms.
 > Reads your codebase, understands what every file *actually does*, and writes the truth back into your source — so both humans and machines stop guessing.
@@ -7,7 +7,7 @@
 
 ## Overview
 
-**Context Engine** is a local, offline-first code intelligence layer that walks a Python project, parses every file with AST, and uses a local GGUF model (Gemma by default) to generate a one-sentence "intent" for every file, function, class, and method. The result is a single `project_summary.json` that becomes the **nervous system** that DebugFlow's surgeon and logger pull from when something breaks.
+**Context Stream** is a local, offline-first code intelligence layer that walks a Python project, parses every file with AST, and uses a local GGUF model (Gemma by default) to generate a one-sentence "intent" for every file, function, class, and method. The result is a single `project_summary.json` that becomes the **nervous system** that DebugFlow's surgeon and logger pull from when something breaks.
 
 Built for two audiences:
 
@@ -20,7 +20,7 @@ Everything runs locally. No code ever leaves your machine.
 
 ## How it works — process model
 
-Context Engine runs as a **completely separate process** from the project it analyzes. It never imports, executes, or links against any of your project's code. It only:
+Context Stream runs as a **completely separate process** from the project it analyzes. It never imports, executes, or links against any of your project's code. It only:
 
 1. Walks your directory tree with `os.walk`.
 2. Reads each `.py` file as plain text.
@@ -37,7 +37,7 @@ This means you can safely run it against any project — broken, partially insta
 ### What it looks like in flight
 
 ```bash
-$ context-engine .
+$ context-stream .
 
 ═══════════════════════════════════════════════════════
 📂 TARGET:      /home/you/projects/my_app
