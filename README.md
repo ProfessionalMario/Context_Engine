@@ -1,3 +1,6 @@
+[![Pepy Total Downloads](https://img.shields.io/pepy/dt/context-stream?color=blue&style=flat-square)](https://pypi.org/project/context-stream/)
+[![PyPI - Version](https://img.shields.io/pypi/v/context-stream?color=green&style=flat-square)](https://pypi.org/project/context-stream/)
+[![PyPI - Python Version](https://img.shields.io/pypi/pyversions/context-stream?style=flat-square)](https://pypi.org/project/context-stream/)
 # Context Stream
 
 > AI-powered project mapping that provides full details and intents for your local llms.
