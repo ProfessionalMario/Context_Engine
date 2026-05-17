@@ -30,6 +30,22 @@ Context Stream runs as a **completely separate process** from the project it ana
 
 This means you can safely run it against any project — broken, partially installed, or with conflicting dependencies — without any interference in either direction.
 
+<h2 align="center">Traditional LLM Workflow vs NeuralSpine</h2>
+
+<table align="center">
+<tr>
+<td align="center">
+<h3>❌ Traditional LLM Workflow</h3>
+<img src="images/bad.gif" width="450" alt="Bad Workflow">
+</td>
+
+<td align="center">
+<h3>✅ NeuralSpine Workflow</h3>
+<img src="images/good.gif" width="450" alt="Good Workflow">
+</td>
+</tr>
+</table>
+
 ---
 
 ## Quick Demo

@@ -9,8 +9,8 @@ from pathlib import Path
 from .core import ContextStream
 from .config import set_model_path, get_model_path
 
-STATE_FILE = Path(__file__).parent / ".context_log_state"
-
+# STATE_FILE = Path(__file__).parent / ".context_log_state"
+STATE_FILE = Path(os.path.expanduser("~")) / ".context_stream_log_state"
 BARE_COMMANDS = {"context-stream"}
 
 

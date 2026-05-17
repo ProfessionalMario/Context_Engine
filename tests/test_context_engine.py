@@ -1,3 +1,7 @@
+"""
+File summary: Summary unavailable due to analysis error.
+"""
+
 # """
 # Comprehensive test suite for context_engine.
 # Mocks: llama_cpp, debugflow, tqdm (unavailable in this environment).
